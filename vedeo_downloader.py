@@ -25,3 +25,24 @@ def download(link):
     return succes
 
 
+# GUI
+form_rows = [ 
+    [sg.Text('YouTube Video Downloader')],
+    [sg.Text('Video URL:', size=(10,1)),sg.Input(key='link',do_not_clear=False)],
+    [sg.Text('Select Folder to save', size=(10,1)),sg.Input(key='path'),sg.FolderBrowse()],
+    [sg.Text(size=(40,1), key='-OUTPUT-')],
+    [sg.Button('Save'), sg.Cancel(), sg.Button('Exit')]
+]
+
+window = sg.Window('Youtube Downloader', form_rows)
+while True:
+    event , value = window.read()
+    if event == 'Save':
+        link = value['link']
+        window['-OUTPUT-'].update(download(link),text_color='yellow')
+    if event == 'Cancel':
+        window['-OUTPUT-'].update("")
+        
+    if event == sg.WIN_CLOSED or event == 'Exit':
+        break
+window.close()
