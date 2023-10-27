@@ -14,15 +14,34 @@ def chenge_dir():
 # logic
 def download(link):
     chenge_dir()
-    youtubeOgject = YouTube(link)
-    youtubeOgject = youtubeOgject.streams.get_highest_resolution()
+    youtubeObject = YouTube(link)
+    youtubeObject = youtubeObject.streams.get_highest_resolution()
     try:
-        youtubeOgject.download()
+        youtubeObject.download()
     except:
-        ex_error = 'An error acured '
+        ex_error = 'Somthing went wrong, try again!'
         return ex_error
-    succes = 'Download is complited successfuly'
-    return succes
+    else:
+        succes = 'Download is complited successfuly'
+        return succes
+    
+def download_audio(link):
+    chenge_dir()
+    youtubeObject = YouTube(link)
+    youtubeObject = youtubeObject.streams.filter(only_audio = True, file_extension='mp4')
+
+    try:
+        youtubeObject =  youtubeObject.get_audio_only()
+        youtubeObject.download()
+
+    except:
+        ex_error = 'Somthing went wrong, try again!'
+        return ex_error
+    else:
+        succes  = 'Audio file saved successfuly'
+        return succes
+
+    
 
 
 # GUI
@@ -31,17 +50,25 @@ form_rows = [
     [sg.Text('Video URL:', size=(10,1)),sg.Input(key='link',do_not_clear=False)],
     [sg.Text('Select Folder to save', size=(10,1)),sg.Input(key='path'),sg.FolderBrowse()],
     [sg.Text(size=(40,1), key='-OUTPUT-')],
-    [sg.Button('Save'), sg.Cancel(), sg.Button('Exit')]
+    [sg.Button('Save Video'), sg.Cancel(), sg.Button('Exit')],
+    [sg.Button('Save Music')]
 ]
 
 window = sg.Window('Youtube Downloader', form_rows)
 while True:
     event , value = window.read()
-    if event == 'Save':
+    if event == 'Save Video':
         link = value['link']
         window['-OUTPUT-'].update(download(link),text_color='yellow')
+    
+    if event == 'Save Music':
+        link = value['link']
+        window['-OUTPUT-'].update(download_audio(link),text_color='white')
+
     if event == 'Cancel':
         window['-OUTPUT-'].update("")
+    
+
         
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
