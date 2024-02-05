@@ -32,6 +32,6 @@ while True:
         else:
             sg.popup('      Warning!     ','Please select folder',text_color='yellow',button_color = 'red')
     else:
-        sg.popup('Warning!','Please add link',text_color='yellow',button_color = 'red')
+        sg.popup(       'Warning!'       ,'Please add link',text_color='yellow',button_color = 'red')
     
 window.close()
